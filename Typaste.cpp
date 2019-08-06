@@ -45,8 +45,8 @@ BOOL Settings_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 
     SetDlgItemInt(hwnd, edt1, s_dwDelay, FALSE);
 
-    SendDlgItemMessage(hwnd, ctl1, HKM_SETRULES, HKCOMB_A | HKCOMB_NONE | HKCOMB_S, 0);
-    SendDlgItemMessage(hwnd, ctl1, HKM_SETHOTKEY, s_wHotKey, 0);
+    SendDlgItemMessage(hwnd, edt2, HKM_SETRULES, HKCOMB_A | HKCOMB_NONE | HKCOMB_S, 0);
+    SendDlgItemMessage(hwnd, edt2, HKM_SETHOTKEY, s_wHotKey, 0);
 
     SetForegroundWindow(hwnd);
     return TRUE;
@@ -131,12 +131,16 @@ BOOL Settings_Save(HWND hwnd)
 void Settings_OnOK(HWND hwnd)
 {
     s_dwDelay = GetDlgItemInt(hwnd, edt1, NULL, FALSE);
-    s_wHotKey = (WORD)SendDlgItemMessage(hwnd, ctl1, HKM_GETHOTKEY, 0, 0);
+    s_wHotKey = (WORD)SendDlgItemMessage(hwnd, edt2, HKM_GETHOTKEY, 0, 0);
 
     Settings_Save(hwnd);
 
     EndDialog(hwnd, IDOK);
 }
+
+#ifndef ARRAYSIZE
+    #define ARRAYSIZE(array) (sizeof(array) / sizeof(array[0]))
+#endif
 
 void Settings_OnPsh1(HWND hwnd)
 {
@@ -260,6 +264,11 @@ void OnDestroy(HWND hwnd)
     Settings_Save(hwnd);
     PostQuitMessage(0);
 }
+
+#ifndef HANDLE_WM_HOTKEY
+    #define HANDLE_WM_HOTKEY(hwnd,wParam,lParam,fn) \
+        ((fn)((hwnd),(int)(wParam),(UINT)LOWORD(lParam),(UINT)HIWORD(lParam)),(LRESULT)0)
+#endif
 
 INT_PTR CALLBACK
 MainDialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

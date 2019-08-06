@@ -1,4 +1,7 @@
-#include "stdafx.hpp"
+// Typaste.cpp --- Typing + Paste
+// Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
+// This file is public domain software.
+#include "Typaste.hpp"
 
 #define DEFAULT_DELAY 20
 #define DEFALUT_HOTKEY MAKEWORD('V', HOTKEYF_CONTROL)
@@ -122,6 +125,7 @@ BOOL Settings_Save(HWND hwnd)
 
     RegCloseKey(hAppKey);
     RegCloseKey(hCompanyKey);
+    return TRUE;
 }
 
 void Settings_OnOK(HWND hwnd)

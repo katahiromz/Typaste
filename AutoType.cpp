@@ -1,7 +1,7 @@
 // AutoType
 // Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
 // This file is public domain software.
-#include "stdafx.hpp"
+#include "Typaste.hpp"
 
 static inline void MyKeybdEvent(WORD wVk, WORD wScan, DWORD dwFlags, ULONG_PTR dwExtra)
 {

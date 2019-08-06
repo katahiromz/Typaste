@@ -1,4 +1,6 @@
-﻿# Typaste
+﻿(UTF-8, Japanese)
+
+# Typaste
 
 Typing + Paste == Typaste.
 

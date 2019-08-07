@@ -1,4 +1,4 @@
-# Typaste
+# Typaste by katahiromz
 
 Typing + Paste == Typaste.
 

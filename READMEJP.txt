@@ -1,6 +1,6 @@
 ﻿(UTF-8, Japanese)
 
-# Typaste
+# Typaste by 片山博文MZ
 
 Typing + Paste == Typaste.
 
@@ -9,3 +9,5 @@ Typaste (タイペースト) は、Ctrl+V による貼り付け処理を割り�
 これにより、貼り付け禁止を突破できます。
 
 Windows XP/Vista/7/10で動作します。
+
+このソフトを不正な目的で使用しないで下さい。悪用は違法です。

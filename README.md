@@ -1,4 +1,4 @@
-# ![](typaste.png "") Typaste
+# ![](typaste.png "") Typaste by katahiromz
 
 Typing + Paste == Typaste.
 
@@ -7,3 +7,5 @@ while this window is displayed and emulates text input like typing.
 This allows you to break through the paste prohibition.
 
 It works on Windows XP/Vista/7/10.
+
+Please do not use this software for illegal purposes.

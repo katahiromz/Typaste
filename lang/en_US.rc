@@ -24,7 +24,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
 // RT_DIALOG
 
 1 DIALOG 0, 0, 210, 135
-CAPTION "Typaste version 0.5.3"
+CAPTION "Typaste version 0.5.3 by katahiromz"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
 FONT 9, "Tahoma"
 {
@@ -55,6 +55,7 @@ STRINGTABLE
 {
     IDS_README, "\\README.txt"
     IDS_DELETESETTINGS, "Do you want to delete Typaste settings?"
+    IDS_TITLETEXT, "Typaste version 0.5.3 by katahiromz"
 }
 
 //////////////////////////////////////////////////////////////////////////////

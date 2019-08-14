@@ -25,6 +25,7 @@ Please do not use this software for illegal purposes.
 - 2019.08.14 ver.0.5.2
     - Add "Open ReadMe".
 - 2019.XX.YY ver.0.5.3
+    - Check window existence before startup.
 
 ## Contact Us
 

@@ -7,6 +7,7 @@
 
 #define IDS_README                          100
 #define IDS_DELETESETTINGS                  101
+#define IDS_TITLETEXT                       102
 
 #define ID_EXIT                             100
 #define ID_PROPERTIES                       101

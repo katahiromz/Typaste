@@ -306,6 +306,17 @@ WinMain(HINSTANCE   hInstance,
         LPSTR       lpCmdLine,
         INT         nCmdShow)
 {
+    {
+        WCHAR szText[64];
+        LoadStringW(NULL, IDS_TITLETEXT, szText, ARRAYSIZE(szText));
+        if (HWND hwnd = FindWindowW(L"#32770", szText))
+        {
+            /* already exists */
+            SetForegroundWindow(hwnd);
+            return 0;
+        }
+    }
+
     InitCommonControls();
 
     s_hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(1));

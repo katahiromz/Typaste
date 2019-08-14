@@ -145,7 +145,7 @@ void Settings_OnOK(HWND hwnd)
 void Settings_OnPsh1(HWND hwnd)
 {
     WCHAR szText[128];
-    LoadString(GetModuleHandle(NULL), 1, szText, ARRAYSIZE(szText));
+    LoadStringW(NULL, IDS_DELETESETTINGS, szText, ARRAYSIZE(szText));
 
     if (IDOK == MessageBoxW(hwnd, szText, s_szName, MB_ICONINFORMATION))
     {
@@ -199,6 +199,20 @@ BOOL OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
     return TRUE;
 }
 
+void OnPsh2(HWND hwnd)
+{
+    WCHAR szPath[MAX_PATH], szText[64];
+
+    GetModuleFileNameW(NULL, szPath, MAX_PATH);
+    LPWSTR pch = wcsrchr(szPath, L'\\');
+    *pch = 0;
+
+    LoadStringW(NULL, IDS_README, szText, 64);
+    wcscat(szPath, szText);
+
+    ShellExecuteW(hwnd, NULL, szPath, NULL, NULL, SW_SHOWNORMAL);
+}
+
 void OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
     switch (id)
@@ -214,6 +228,9 @@ void OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
     case psh1:
         s_nExitCode = psh1;
         DestroyWindow(hwnd);
+        break;
+    case psh2:
+        OnPsh2(hwnd);
         break;
     }
 }

@@ -5,6 +5,9 @@
 
 LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
 
+//////////////////////////////////////////////////////////////////////////////
+// RT_MENU
+
 1 MENU
 {
     POPUP "Popup #0"
@@ -17,6 +20,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////
+// RT_DIALOG
+
 1 DIALOG 0, 0, 210, 135
 CAPTION "Typaste version 0.5.2"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
@@ -24,7 +30,8 @@ FONT 9, "Tahoma"
 {
     ICON 1, IDC_STATIC, 5, 5, 0, 0
     LTEXT "Typing + Paste == Typaste.\n\nTypaste is a program that intercepts the pasting process by Ctrl+V while this window is displayed and emulates text input like typing. This allows you to break through the paste prohibition.", IDC_STATIC, 30, 5, 175, 65
-    PUSHBUTTON "&Settings...", psh1, 45, 81, 115, 25
+    PUSHBUTTON "&Open ReadMe", psh2, 30, 81, 68, 25
+    PUSHBUTTON "&Settings...", psh1, 106, 81, 68, 25
     PUSHBUTTON "E&xit", IDCANCEL, 145, 115, 60, 14
 }
 
@@ -41,8 +48,13 @@ FONT 9, "Tahoma"
     PUSHBUTTON "Cancel", IDCANCEL, 165, 45, 60, 14
 }
 
+//////////////////////////////////////////////////////////////////////////////
+// RT_STRING
+
 STRINGTABLE
 {
-    1, "Do you want to delete Typaste settings?"
+    IDS_README, "\\README.txt"
+    IDS_DELETESETTINGS, "Do you want to delete Typaste settings?"
 }
 
+//////////////////////////////////////////////////////////////////////////////

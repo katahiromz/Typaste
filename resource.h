@@ -5,6 +5,9 @@
 
 #define IDC_STATIC                          -1
 
+#define IDS_README                          100
+#define IDS_DELETESETTINGS                  101
+
 #define ID_EXIT                             100
 #define ID_PROPERTIES                       101
 #define ID_DELETE_SETTINGS                  102

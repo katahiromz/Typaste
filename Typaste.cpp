@@ -66,7 +66,11 @@ BOOL Settings_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
         } while (FindNextFileW(hFind, &find));
         FindClose(hFind);
     }
-    ComboBox_AddString(hCmb1, s_strSound.c_str());
+
+    if (ComboBox_FindStringExact(hCmb1, -1, s_strSound.c_str()) == CB_ERR)
+    {
+        ComboBox_AddString(hCmb1, s_strSound.c_str());
+    }
     ComboBox_SetText(hCmb1, s_strSound.c_str());
 
     SetForegroundWindow(hwnd);

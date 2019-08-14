@@ -26,6 +26,7 @@ Please do not use this software for illegal purposes.
     - Add "Open ReadMe".
 - 2019.XX.YY ver.0.5.3
     - Check window existence before startup.
+    - Add play sound feature.
 
 ## Contact Us
 

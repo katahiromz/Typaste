@@ -13,6 +13,7 @@ WORD s_wHotKey = DEFALUT_HOTKEY;
 HICON s_hIcon = NULL;
 HICON s_hIconSm = NULL;
 INT s_nExitCode = IDCANCEL;
+std::wstring s_strSound;
 
 static const TCHAR s_szName[] = TEXT("Typaste");
 
@@ -47,6 +48,26 @@ BOOL Settings_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 
     SendDlgItemMessage(hwnd, edt2, HKM_SETRULES, HKCOMB_A | HKCOMB_NONE | HKCOMB_S, 0);
     SendDlgItemMessage(hwnd, edt2, HKM_SETHOTKEY, s_wHotKey, 0);
+
+    WCHAR szPath[MAX_PATH];
+    GetModuleFileNameW(NULL, szPath, MAX_PATH);
+    LPWSTR pch = wcsrchr(szPath, L'\\');
+    *pch = 0;
+    lstrcatW(szPath, L"\\*.wav");
+
+    HWND hCmb1 = GetDlgItem(hwnd, cmb1);
+    WIN32_FIND_DATAW find;
+    HANDLE hFind = FindFirstFile(szPath, &find);
+    if (hFind != INVALID_HANDLE_VALUE)
+    {
+        do
+        {
+            ComboBox_AddString(hCmb1, find.cFileName);
+        } while (FindNextFileW(hFind, &find));
+        FindClose(hFind);
+    }
+    ComboBox_AddString(hCmb1, s_strSound.c_str());
+    ComboBox_SetText(hCmb1, s_strSound.c_str());
 
     SetForegroundWindow(hwnd);
     return TRUE;
@@ -85,6 +106,8 @@ BOOL Settings_Load(HWND hwnd)
         return FALSE;
 
     DWORD dwData, cbData;
+    WCHAR szText[MAX_PATH];
+
     cbData = sizeof(DWORD);
     if (ERROR_SUCCESS == RegQueryValueExW(hKey, L"Delay", NULL, NULL, (LPBYTE)&dwData, &cbData))
     {
@@ -95,6 +118,13 @@ BOOL Settings_Load(HWND hwnd)
     if (ERROR_SUCCESS == RegQueryValueExW(hKey, L"HotKey", NULL, NULL, (LPBYTE)&dwData, &cbData))
     {
         s_wHotKey = (WORD)dwData;
+    }
+
+    cbData = sizeof(szText);
+    if (ERROR_SUCCESS == RegQueryValueExW(hKey, L"Sound", NULL, NULL, (LPBYTE)szText, &cbData))
+    {
+        StrTrimW(szText, L" \t\r\n");
+        s_strSound = szText;
     }
 
     RegCloseKey(hKey);
@@ -123,6 +153,9 @@ BOOL Settings_Save(HWND hwnd)
     DWORD dwData = s_wHotKey;
     RegSetValueExW(hAppKey, L"HotKey", 0, REG_DWORD, (BYTE *)&dwData, sizeof(DWORD));
 
+    DWORD cbData = (s_strSound.size() + 1) * sizeof(WCHAR);
+    RegSetValueExW(hAppKey, L"Sound", 0, REG_SZ, (BYTE *)s_strSound.c_str(), cbData);
+
     RegCloseKey(hAppKey);
     RegCloseKey(hCompanyKey);
     return TRUE;
@@ -132,6 +165,11 @@ void Settings_OnOK(HWND hwnd)
 {
     s_dwDelay = GetDlgItemInt(hwnd, edt1, NULL, FALSE);
     s_wHotKey = (WORD)SendDlgItemMessage(hwnd, edt2, HKM_GETHOTKEY, 0, 0);
+
+    WCHAR szText[MAX_PATH];
+    GetDlgItemText(hwnd, cmb1, szText, ARRAYSIZE(szText));
+    StrTrimW(szText, L" \t\r\n");
+    s_strSound = szText;
 
     Settings_Save(hwnd);
 
@@ -157,6 +195,26 @@ void Settings_OnPsh1(HWND hwnd)
     }
 }
 
+void Settings_OnPsh2(HWND hwnd)
+{
+    OPENFILENAMEW ofn;
+    WCHAR szPath[MAX_PATH] = L"";
+
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400W;
+    ofn.lpstrFilter = L"Sound File (*.wav)\0*.wav\0All Files (*.*)\0*.*\0";
+    ofn.lpstrFile = szPath;
+    ofn.nMaxFile = ARRAYSIZE(szPath);
+    ofn.lpstrTitle = L"Choose a sound file";
+    ofn.Flags = OFN_EXPLORER | OFN_ENABLESIZING | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST |
+                OFN_HIDEREADONLY | OFN_LONGNAMES;
+    ofn.lpstrDefExt = L"wav";
+    if (GetOpenFileNameW(&ofn))
+    {
+        SetDlgItemTextW(hwnd, cmb1, szPath);
+    }
+}
+
 void Settings_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
     switch (id)
@@ -169,6 +227,9 @@ void Settings_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
         break;
     case psh1:
         Settings_OnPsh1(hwnd);
+        break;
+    case psh2:
+        Settings_OnPsh2(hwnd);
         break;
     }
 }
@@ -272,7 +333,28 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
     CloseClipboard();
 
     WaitModifierRelease(s_dwDelay);
-    AutoType(pszClone, s_dwDelay);
+
+    WCHAR szSound[MAX_PATH];
+    LPWSTR pch;
+    LPCWSTR pszSound = s_strSound.c_str();
+    if (PathIsRelative(pszSound))
+    {
+        GetModuleFileNameW(NULL, szSound, ARRAYSIZE(szSound));
+        pch = wcsrchr(szSound, L'\\');
+        if (!pch)
+            pch = wcsrchr(szSound, L'/');
+        if (pch)
+        {
+            *pch = 0;
+            PathAppendW(szSound, pszSound);
+        }
+    }
+    else
+    {
+        lstrcpynW(szSound, pszSound, ARRAYSIZE(szSound));
+    }
+
+    AutoType(pszClone, s_dwDelay, szSound);
     free(pszClone);
 }
 

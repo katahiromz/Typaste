@@ -40,7 +40,7 @@ void CtrlV(DWORD dwDelay)
     Sleep(dwDelay);
 }
 
-void AutoType(const WCHAR *psz, DWORD dwDelay)
+void AutoType(const WCHAR *psz, DWORD dwDelay, LPCWSTR pszSound)
 {
     const UINT cMaxKL = 10;
     HKL ahkl[cMaxKL];
@@ -69,6 +69,9 @@ void AutoType(const WCHAR *psz, DWORD dwDelay)
             Sleep(dwDelay);
             continue;
         }
+
+        PlaySoundW(pszSound, NULL,
+                   SND_ASYNC | SND_FILENAME | SND_NODEFAULT);
 
         SHORT s = -1;
         UINT i;

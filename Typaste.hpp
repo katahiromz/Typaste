@@ -2,6 +2,9 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <shellapi.h>
+#include <shlwapi.h>
 #include <commctrl.h>
+#include <commdlg.h>
+#include <string>
 #include "AutoType.hpp"
 #include "resource.h"

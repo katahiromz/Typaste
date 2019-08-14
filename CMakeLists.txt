@@ -68,6 +68,6 @@ add_executable(Typaste WIN32 Typaste.cpp AutoType.cpp Typaste_res.rc)
 target_compile_definitions(Typaste PRIVATE -DUNICODE -D_UNICODE)
 
 # link
-target_link_libraries(Typaste comctl32 shell32)
+target_link_libraries(Typaste comctl32 shell32 shlwapi winmm)
 
 ##############################################################################

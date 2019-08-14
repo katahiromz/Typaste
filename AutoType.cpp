@@ -72,6 +72,7 @@ void AutoType(const WCHAR *psz, DWORD dwDelay, LPCWSTR pszSound)
 
         PlaySoundW(pszSound, NULL,
                    SND_ASYNC | SND_FILENAME | SND_NODEFAULT);
+        Sleep(dwDelay);
 
         SHORT s = -1;
         UINT i;

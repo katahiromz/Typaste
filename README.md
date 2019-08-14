@@ -24,6 +24,7 @@ Please do not use this software for illegal purposes.
     - First release.
 - 2019.08.14 ver.0.5.2
     - Add "Open ReadMe".
+- 2019.XX.YY ver.0.5.3
 
 ## Contact Us
 

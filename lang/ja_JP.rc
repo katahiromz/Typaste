@@ -14,7 +14,7 @@ STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
 FONT 9, "MS UI Gothic"
 {
     ICON 1, IDC_STATIC, 5, 5, 0, 0
-    LTEXT "Typing + Paste == Typaste.\n\nTypaste (タイペースト) は、このウィンドウが表示されている間、Ctrl+V による貼り付け処理を割り込み、まるで打ち込むようにテキスト入力をエミュレートするプログラムです。これにより、貼り付け禁止を突破できます。", IDC_STATIC, 30, 5, 175, 60
+    LTEXT "Typing + Paste == Typaste.\n\nTypaste (タイペースト) は、このウィンドウが表示されている間、Ctrl+V による貼り付け処理を割り込み、まるで打ち込むようにテキスト入力をエミュレートするプログラムです。これにより、貼り付け禁止を突破できます。\n\nEsc キーで入力を停止できます。", IDC_STATIC, 30, 5, 175, 73
     PUSHBUTTON "ReadMe を開く(&O)", psh2, 30, 81, 68, 25
     PUSHBUTTON "設定変更(&S)...", psh1, 106, 81, 68, 25
     PUSHBUTTON "終了(&X)", IDCANCEL, 145, 115, 60, 14

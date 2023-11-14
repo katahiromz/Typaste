@@ -30,3 +30,8 @@ ipch
 x64
 *-old
 *.skrold
+a.*
+*.ninja
+.ninja*
+lib*.a
+*.dll

@@ -8,7 +8,8 @@
 #define HOTKEY_ID 0xDEDD
 
 HWND s_hwndMain = NULL;
-DWORD s_dwDelay = DEFAULT_DELAY;
+DWORD s_dwDelayToType = DEFAULT_DELAY;
+DWORD s_dwDelayToStart = 0;
 WORD s_wHotKey = DEFALUT_HOTKEY;
 HICON s_hIcon = NULL;
 HICON s_hIconSm = NULL;
@@ -44,7 +45,8 @@ BOOL Settings_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
     SendMessageW(hwnd, WM_SETICON, ICON_BIG, (LPARAM)s_hIcon);
     SendMessageW(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)s_hIconSm);
 
-    SetDlgItemInt(hwnd, edt1, s_dwDelay, FALSE);
+    SetDlgItemInt(hwnd, edt1, s_dwDelayToType, FALSE);
+    SetDlgItemInt(hwnd, edt3, s_dwDelayToStart, FALSE);
 
     SendDlgItemMessage(hwnd, edt2, HKM_SETRULES, HKCOMB_A | HKCOMB_NONE | HKCOMB_S, 0);
     SendDlgItemMessage(hwnd, edt2, HKM_SETHOTKEY, s_wHotKey, 0);
@@ -98,7 +100,8 @@ BOOL Settings_Delete(HWND hwnd)
 
 BOOL Settings_Load(HWND hwnd)
 {
-    s_dwDelay = DEFAULT_DELAY;
+    s_dwDelayToType = DEFAULT_DELAY;
+    s_dwDelayToStart = 0;
     s_wHotKey = DEFALUT_HOTKEY;
 
     HKEY hKey = NULL;
@@ -115,7 +118,12 @@ BOOL Settings_Load(HWND hwnd)
     cbData = sizeof(DWORD);
     if (ERROR_SUCCESS == RegQueryValueExW(hKey, L"Delay", NULL, NULL, (LPBYTE)&dwData, &cbData))
     {
-        s_dwDelay = dwData;
+        s_dwDelayToType = dwData;
+    }
+    cbData = sizeof(DWORD);
+    if (ERROR_SUCCESS == RegQueryValueExW(hKey, L"DelayToStart", NULL, NULL, (LPBYTE)&dwData, &cbData))
+    {
+        s_dwDelayToStart = dwData;
     }
 
     cbData = sizeof(DWORD);
@@ -152,7 +160,8 @@ BOOL Settings_Save(HWND hwnd)
         return FALSE;
     }
 
-    RegSetValueExW(hAppKey, L"Delay", 0, REG_DWORD, (BYTE *)&s_dwDelay, sizeof(DWORD));
+    RegSetValueExW(hAppKey, L"Delay", 0, REG_DWORD, (BYTE *)&s_dwDelayToType, sizeof(DWORD));
+    RegSetValueExW(hAppKey, L"DelayToStart", 0, REG_DWORD, (BYTE *)&s_dwDelayToStart, sizeof(DWORD));
 
     DWORD dwData = s_wHotKey;
     RegSetValueExW(hAppKey, L"HotKey", 0, REG_DWORD, (BYTE *)&dwData, sizeof(DWORD));
@@ -167,7 +176,8 @@ BOOL Settings_Save(HWND hwnd)
 
 void Settings_OnOK(HWND hwnd)
 {
-    s_dwDelay = GetDlgItemInt(hwnd, edt1, NULL, FALSE);
+    s_dwDelayToType = GetDlgItemInt(hwnd, edt1, NULL, FALSE);
+    s_dwDelayToStart = GetDlgItemInt(hwnd, edt3, NULL, FALSE);
     s_wHotKey = (WORD)SendDlgItemMessage(hwnd, edt2, HKM_GETHOTKEY, 0, 0);
 
     WCHAR szText[MAX_PATH];
@@ -305,12 +315,14 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
     if (idHotKey != HOTKEY_ID)
         return;
 
+    Sleep(s_dwDelayToStart);
+
     if (!IsClipboardFormatAvailable(CF_UNICODETEXT) ||
         !OpenClipboard(hwnd))
     {
         UnregisterHotKey(hwnd, HOTKEY_ID);
-        WaitModifierRelease(s_dwDelay);
-        CtrlV(s_dwDelay);
+        WaitModifierRelease(s_dwDelayToType);
+        CtrlV(s_dwDelayToType);
         MyRegisterHotKey(hwnd);
         return;
     }
@@ -328,15 +340,15 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
     if (!pszClone)
     {
         UnregisterHotKey(hwnd, HOTKEY_ID);
-        WaitModifierRelease(s_dwDelay);
-        CtrlV(s_dwDelay);
+        WaitModifierRelease(s_dwDelayToType);
+        CtrlV(s_dwDelayToType);
         MyRegisterHotKey(hwnd);
         return;
     }
 
     CloseClipboard();
 
-    WaitModifierRelease(s_dwDelay);
+    WaitModifierRelease(s_dwDelayToType);
 
     WCHAR szSound[MAX_PATH];
     LPWSTR pch;
@@ -358,7 +370,7 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
         lstrcpynW(szSound, pszSound, ARRAYSIZE(szSound));
     }
 
-    AutoType(pszClone, s_dwDelay, szSound);
+    AutoType(pszClone, s_dwDelayToType, szSound);
     free(pszClone);
 }
 

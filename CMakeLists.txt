@@ -58,13 +58,9 @@ endif()
 
 ##############################################################################
 
-# executable
+# Typaste.exe
 add_executable(Typaste WIN32 Typaste.cpp AutoType.cpp Typaste_res.rc)
-
-# Unicode support
-target_compile_definitions(Typaste PRIVATE -DUNICODE -D_UNICODE)
-
-# link
-target_link_libraries(Typaste comctl32 shell32 shlwapi winmm)
+target_compile_definitions(Typaste PRIVATE -DUNICODE -D_UNICODE) # Unicode support
+target_link_libraries(Typaste comctl32 shell32 shlwapi winmm imm32)
 
 ##############################################################################

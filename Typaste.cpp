@@ -15,6 +15,7 @@ HICON s_hIcon = NULL;
 HICON s_hIconSm = NULL;
 INT s_nExitCode = IDCANCEL;
 std::wstring s_strSound;
+BOOL s_bControlIME = FALSE;
 
 static const TCHAR s_szName[] = TEXT("Typaste");
 
@@ -74,6 +75,8 @@ BOOL Settings_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
         ComboBox_AddString(hCmb1, s_strSound.c_str());
     }
     ComboBox_SetText(hCmb1, s_strSound.c_str());
+
+    CheckDlgButton(hwnd, chx1, s_bControlIME ? BST_CHECKED : BST_UNCHECKED);
 
     SetForegroundWindow(hwnd);
     return TRUE;
@@ -139,6 +142,12 @@ BOOL Settings_Load(HWND hwnd)
         s_strSound = szText;
     }
 
+    cbData = sizeof(DWORD);
+    if (ERROR_SUCCESS == RegQueryValueExW(hKey, L"ControlIME", NULL, NULL, (LPBYTE)&dwData, &cbData))
+    {
+        s_bControlIME = !!dwData;
+    }
+
     RegCloseKey(hKey);
     return TRUE;
 }
@@ -162,6 +171,7 @@ BOOL Settings_Save(HWND hwnd)
 
     RegSetValueExW(hAppKey, L"Delay", 0, REG_DWORD, (BYTE *)&s_dwDelayToType, sizeof(DWORD));
     RegSetValueExW(hAppKey, L"DelayToStart", 0, REG_DWORD, (BYTE *)&s_dwDelayToStart, sizeof(DWORD));
+    RegSetValueExW(hAppKey, L"ControlIME", 0, REG_DWORD, (BYTE *)&s_bControlIME, sizeof(s_bControlIME));
 
     DWORD dwData = s_wHotKey;
     RegSetValueExW(hAppKey, L"HotKey", 0, REG_DWORD, (BYTE *)&dwData, sizeof(DWORD));
@@ -179,6 +189,7 @@ void Settings_OnOK(HWND hwnd)
     s_dwDelayToType = GetDlgItemInt(hwnd, edt1, NULL, FALSE);
     s_dwDelayToStart = GetDlgItemInt(hwnd, edt3, NULL, FALSE);
     s_wHotKey = (WORD)SendDlgItemMessage(hwnd, edt2, HKM_GETHOTKEY, 0, 0);
+    s_bControlIME = (IsDlgButtonChecked(hwnd, chx1) == BST_CHECKED);
 
     WCHAR szText[MAX_PATH];
     GetDlgItemText(hwnd, cmb1, szText, ARRAYSIZE(szText));
@@ -229,6 +240,13 @@ void Settings_OnPsh2(HWND hwnd)
     }
 }
 
+void Settings_OnPsh3(HWND hwnd)
+{
+    WCHAR szPath[MAX_PATH];
+    GetDlgItemTextW(hwnd, cmb1, szPath, _countof(szPath));
+    PlaySoundW(szPath, NULL, SND_ASYNC | SND_FILENAME | SND_NODEFAULT);
+}
+
 void Settings_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
     switch (id)
@@ -244,6 +262,9 @@ void Settings_OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
         break;
     case psh2:
         Settings_OnPsh2(hwnd);
+        break;
+    case psh3:
+        Settings_OnPsh3(hwnd);
         break;
     }
 }
@@ -370,7 +391,36 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
         lstrcpynW(szSound, pszSound, ARRAYSIZE(szSound));
     }
 
+#ifndef IMC_GETOPENSTATUS
+    #define IMC_GETOPENSTATUS 0x0005
+#endif
+#ifndef IMC_SETOPENSTATUS
+    #define IMC_SETOPENSTATUS 0x0006
+#endif
+    HWND hwndTarget = GetForegroundWindow();
+    HWND hwndIme = ImmGetDefaultIMEWnd(hwndTarget);
+    BOOL bImeOn = (BOOL)SendMessageW(hwndIme, WM_IME_CONTROL, IMC_GETOPENSTATUS, 0);
+
+    if (s_bControlIME && hwndIme)
+    {
+        if (bImeOn)
+        {
+            SendMessageW(hwndIme, WM_IME_CONTROL, IMC_SETOPENSTATUS, FALSE);
+            Sleep(300);
+        }
+    }
+
     AutoType(pszClone, s_dwDelayToType, szSound);
+
+    if (s_bControlIME && hwndIme)
+    {
+        if (bImeOn)
+        {
+            SendMessageW(hwndIme, WM_IME_CONTROL, IMC_SETOPENSTATUS, TRUE);
+            Sleep(300);
+        }
+    }
+
     free(pszClone);
 }
 

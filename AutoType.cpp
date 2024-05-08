@@ -86,7 +86,7 @@ void AutoType(const WCHAR *psz, DWORD dwDelay, LPCWSTR pszSound)
                 break;
         }
 
-        HKL hkl = NULL;
+        HKL hkl;
         if (s != -1)
         {
             for (INT k = 0; k < cMaxKL; ++k)

@@ -7,6 +7,10 @@
 #define DEFALUT_HOTKEY MAKEWORD('V', HOTKEYF_CONTROL)
 #define HOTKEY_ID 0xDEDD
 
+#ifndef _countof
+    #define _countof(array) (sizeof(array) / sizeof(array[0]))
+#endif
+
 HWND s_hwndMain = NULL;
 DWORD s_dwDelayToType = DEFAULT_DELAY;
 DWORD s_dwDelayToStart = 0;
@@ -196,7 +200,7 @@ void Settings_OnOK(HWND hwnd)
     s_bControlIME = (IsDlgButtonChecked(hwnd, chx1) == BST_CHECKED);
 
     WCHAR szText[MAX_PATH];
-    GetDlgItemText(hwnd, cmb1, szText, ARRAYSIZE(szText));
+    GetDlgItemText(hwnd, cmb1, szText, _countof(szText));
     StrTrimW(szText, L" \t\r\n");
     s_strSound = szText;
 
@@ -205,14 +209,10 @@ void Settings_OnOK(HWND hwnd)
     EndDialog(hwnd, IDOK);
 }
 
-#ifndef ARRAYSIZE
-    #define ARRAYSIZE(array) (sizeof(array) / sizeof(array[0]))
-#endif
-
 void Settings_OnPsh1(HWND hwnd)
 {
     WCHAR szText[128];
-    LoadStringW(NULL, IDS_DELETESETTINGS, szText, ARRAYSIZE(szText));
+    LoadStringW(NULL, IDS_DELETESETTINGS, szText, _countof(szText));
 
     if (IDOK == MessageBoxW(hwnd, szText, s_szName, MB_ICONINFORMATION))
     {
@@ -233,7 +233,7 @@ void Settings_OnPsh2(HWND hwnd)
     ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400W;
     ofn.lpstrFilter = L"Sound File (*.wav)\0*.wav\0All Files (*.*)\0*.*\0";
     ofn.lpstrFile = szPath;
-    ofn.nMaxFile = ARRAYSIZE(szPath);
+    ofn.nMaxFile = _countof(szPath);
     ofn.lpstrTitle = L"Choose a sound file";
     ofn.Flags = OFN_EXPLORER | OFN_ENABLESIZING | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST |
                 OFN_HIDEREADONLY | OFN_LONGNAMES;
@@ -380,7 +380,7 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
     LPCWSTR pszSound = s_strSound.c_str();
     if (PathIsRelative(pszSound))
     {
-        GetModuleFileNameW(NULL, szSound, ARRAYSIZE(szSound));
+        GetModuleFileNameW(NULL, szSound, _countof(szSound));
         pch = wcsrchr(szSound, L'\\');
         if (!pch)
             pch = wcsrchr(szSound, L'/');
@@ -392,7 +392,7 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
     }
     else
     {
-        lstrcpynW(szSound, pszSound, ARRAYSIZE(szSound));
+        lstrcpynW(szSound, pszSound, _countof(szSound));
     }
 
 #ifndef IMC_GETOPENSTATUS
@@ -460,7 +460,7 @@ WinMain(HINSTANCE   hInstance,
 {
     {
         WCHAR szText[64];
-        LoadStringW(NULL, IDS_TITLETEXT, szText, ARRAYSIZE(szText));
+        LoadStringW(NULL, IDS_TITLETEXT, szText, _countof(szText));
         if (HWND hwnd = FindWindowW(L"#32770", szText))
         {
             /* already exists */

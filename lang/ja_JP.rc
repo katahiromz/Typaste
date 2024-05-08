@@ -9,7 +9,7 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 // RT_DIALOG
 
 1 DIALOG 0, 0, 210, 135
-CAPTION "Typaste version 1.0.0 by 片山博文MZ"
+CAPTION "Typaste version 1.0.1 by 片山博文MZ"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
 FONT 9, "MS UI Gothic"
 {
@@ -51,7 +51,7 @@ STRINGTABLE
 {
     IDS_README, "\\READMEJP.txt"
     IDS_DELETESETTINGS, "設定を削除しますか？"
-    IDS_TITLETEXT, "Typaste version 1.0.0 by 片山博文MZ"
+    IDS_TITLETEXT, "Typaste version 1.0.1 by 片山博文MZ"
 }
 
 //////////////////////////////////////////////////////////////////////////////

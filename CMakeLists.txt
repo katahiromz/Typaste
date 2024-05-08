@@ -27,11 +27,6 @@ if (NOT uppercase_CMAKE_BUILD_TYPE MATCHES "^(DEBUG|RELEASE|RELWITHDEBINFO|MINSI
     message(FATAL_ERROR "Invalid value for CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 endif()
 
-## set output directory (build/)
-#set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
-#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-#set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     # using Clang
     set(CMAKE_C_FLAGS "-static -s")
@@ -62,5 +57,8 @@ endif()
 add_executable(Typaste WIN32 Typaste.cpp AutoType.cpp Typaste_res.rc)
 target_compile_definitions(Typaste PRIVATE -DUNICODE -D_UNICODE) # Unicode support
 target_link_libraries(Typaste comctl32 shell32 shlwapi winmm imm32)
+if(MSVC)
+    target_link_options(Typaste PRIVATE /MANIFEST:NO)
+endif()
 
 ##############################################################################

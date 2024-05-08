@@ -14,7 +14,7 @@ License: MIT
 
 ## Supported Platforms
 
-It works on Windows XP/Vista/7/10.
+It works on Windows 2000/XP/Vista/7/10/11.
 
 ## Warning
 

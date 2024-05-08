@@ -1,5 +1,5 @@
 // Typaste.cpp --- Typing + Paste
-// Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
+// Copyright (C) 2019-2024 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
 // This file is public domain software.
 #include "Typaste.hpp"
 

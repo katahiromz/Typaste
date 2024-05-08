@@ -161,7 +161,6 @@ void AutoType(const WCHAR *psz, DWORD dwDelay, LPCWSTR pszSound)
         }
     }
 
-    HKL hkl;
     for (INT k = 0; k < cMaxKL; ++k)
     {
         HKL hkl = GetKeyboardLayout(0);

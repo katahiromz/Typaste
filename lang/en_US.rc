@@ -60,6 +60,34 @@ FONT 9, "Tahoma"
 }
 
 //////////////////////////////////////////////////////////////////////////////
+// RT_VERSION
+
+1 VERSIONINFO
+FILEVERSION     1, 0, 1, 0
+PRODUCTVERSION  1, 0, 1, 0
+FILEOS          0x40004
+FILETYPE        0x1
+FILESUBTYPE     0x0
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904E4"
+        {
+            VALUE "CompanyName", "Katayama Hirofumi MZ\0"
+            VALUE "FileDescription", "Typaste\0"
+            VALUE "FileVersion", "1.0.1\0"
+            VALUE "LegalCopyright", "Copyright 2019-2024 Katayama Hirofumi MZ.\0"
+            VALUE "ProductName", "Typaste\0"
+            VALUE "ProductVersion", "1.0.1\0"
+        }
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x0409, 0x04E4
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////
 // RT_STRING
 
 STRINGTABLE

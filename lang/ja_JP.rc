@@ -56,12 +56,12 @@ FILESUBTYPE     0x0
 {
     BLOCK "StringFileInfo"
     {
-        BLOCK "040904E4"
+        BLOCK "041103A4"
         {
-            VALUE "CompanyName", "片山博文MZ\0"
+            VALUE "CompanyName", "Katayama Hirofumi MZ\0"
             VALUE "FileDescription", "Typaste\0"
             VALUE "FileVersion", "1.0.1\0"
-            VALUE "LegalCopyright", "Copyright 2019-2024 片山博文MZ.\0"
+            VALUE "LegalCopyright", "Copyright 2019-2024 katahiromz.\0"
             VALUE "ProductName", "Typaste\0"
             VALUE "ProductVersion", "1.0.1\0"
         }

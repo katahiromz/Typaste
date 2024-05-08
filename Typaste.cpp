@@ -15,7 +15,7 @@ HICON s_hIcon = NULL;
 HICON s_hIconSm = NULL;
 INT s_nExitCode = IDCANCEL;
 std::wstring s_strSound;
-BOOL s_bControlIME = FALSE;
+BOOL s_bControlIME = TRUE;
 
 static const TCHAR s_szName[] = TEXT("Typaste");
 
@@ -51,6 +51,9 @@ BOOL Settings_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
 
     SendDlgItemMessage(hwnd, edt2, HKM_SETRULES, HKCOMB_A | HKCOMB_NONE | HKCOMB_S, 0);
     SendDlgItemMessage(hwnd, edt2, HKM_SETHOTKEY, s_wHotKey, 0);
+
+    SendDlgItemMessage(hwnd, scr1, UDM_SETRANGE, 0, MAKELONG(10000, 0));
+    SendDlgItemMessage(hwnd, scr2, UDM_SETRANGE, 0, MAKELONG(10000, 0));
 
     WCHAR szPath[MAX_PATH];
     GetModuleFileNameW(NULL, szPath, MAX_PATH);
@@ -106,6 +109,7 @@ BOOL Settings_Load(HWND hwnd)
     s_dwDelayToType = DEFAULT_DELAY;
     s_dwDelayToStart = 0;
     s_wHotKey = DEFALUT_HOTKEY;
+    s_bControlIME = TRUE;
 
     HKEY hKey = NULL;
     RegOpenKeyExW(HKEY_CURRENT_USER,

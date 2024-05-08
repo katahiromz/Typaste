@@ -24,7 +24,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
 // RT_DIALOG
 
 1 DIALOG 0, 0, 210, 135
-CAPTION "Typaste version 0.5.4 by katahiromz"
+CAPTION "Typaste version 1.0.0 by katahiromz"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
 FONT 9, "Tahoma"
 {
@@ -42,9 +42,11 @@ FONT 9, "Tahoma"
 {
     RTEXT "&Delay to type", -1, 5, 5, 75, 10
     EDITTEXT edt1, 85, 5, 35, 15, ES_NUMBER
+    CONTROL "", scr1, "msctls_updown32", UDS_NOTHOUSANDS | UDS_AUTOBUDDY | UDS_ALIGNRIGHT | UDS_SETBUDDYINT, 202, 26, 12, 20
     LTEXT "milliseconds", -1, 125, 10, 50, 10
     RTEXT "Delay to s&tart", -1, 5, 25, 75, 10
     EDITTEXT edt3, 85, 25, 35, 15, ES_NUMBER
+    CONTROL "", scr2, "msctls_updown32", UDS_NOTHOUSANDS | UDS_AUTOBUDDY | UDS_ALIGNRIGHT | UDS_SETBUDDYINT, 202, 26, 12, 20
     LTEXT "milliseconds", -1, 125, 30, 50, 10
     RTEXT "&HotKey:", -1, 5, 45, 75, 10
     CONTROL "", edt2, "msctls_hotkey32", 0, 85, 45, 70, 15
@@ -64,7 +66,7 @@ STRINGTABLE
 {
     IDS_README, "\\README.txt"
     IDS_DELETESETTINGS, "Do you want to delete Typaste settings?"
-    IDS_TITLETEXT, "Typaste version 0.5.4 by katahiromz"
+    IDS_TITLETEXT, "Typaste version 1.0.0 by katahiromz"
 }
 
 //////////////////////////////////////////////////////////////////////////////

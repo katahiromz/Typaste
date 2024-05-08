@@ -6,6 +6,7 @@
 - 2019-08-14 ver.0.5.2 Added "Open ReadMe".
 - 2023-11-14 ver.0.5.3 Added sounds. Added "Delay to start".
 - 2024-04-25 ver.0.5.4 Added "Play" button. Added "Control IME On/Off".
+- 2024-05-08 ver.1.0.0 Made "Control IME On/Off" default. Added spin controls.
 
 ## Japanese (日本語)
 
@@ -13,3 +14,4 @@
 - 2019-08-14 ver.0.5.2「ReadMe を開く」を追加。
 - 2023-11-14 ver.0.5.3 音声を追加。開始遅延を追加。
 - 2024-04-25 ver.0.5.4 「音声の再生」を追加。「IMEのオン／オフを制御」を追加。
+- 2024-05-08 ver.1.0.0 「IMEのオン／オフを制御」をデフォルトに。スピンコントロールを追加。

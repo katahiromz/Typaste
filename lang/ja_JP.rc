@@ -9,7 +9,7 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 // RT_DIALOG
 
 1 DIALOG 0, 0, 210, 135
-CAPTION "Typaste version 0.5.4 by 片山博文MZ"
+CAPTION "Typaste version 1.0.0 by 片山博文MZ"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
 FONT 9, "MS UI Gothic"
 {
@@ -27,9 +27,11 @@ FONT 9, "MS UI Gothic"
 {
     RTEXT "タイプ遅延(&D)", -1, 5, 5, 75, 10
     EDITTEXT edt1, 85, 5, 35, 15, ES_NUMBER
+    CONTROL "", scr1, "msctls_updown32", UDS_NOTHOUSANDS | UDS_AUTOBUDDY | UDS_ALIGNRIGHT | UDS_SETBUDDYINT, 202, 26, 12, 20
     LTEXT "ミリ秒", -1, 125, 10, 50, 10
     RTEXT "開始遅延(&T)", -1, 5, 25, 75, 10
     EDITTEXT edt3, 85, 25, 35, 15, ES_NUMBER
+    CONTROL "", scr2, "msctls_updown32", UDS_NOTHOUSANDS | UDS_AUTOBUDDY | UDS_ALIGNRIGHT | UDS_SETBUDDYINT, 202, 26, 12, 20
     LTEXT "ミリ秒", -1, 125, 30, 50, 10
     RTEXT "ホットキー(&H):", -1, 5, 45, 75, 10
     CONTROL "", edt2, "msctls_hotkey32", 0, 85, 45, 70, 15
@@ -49,7 +51,7 @@ STRINGTABLE
 {
     IDS_README, "\\READMEJP.txt"
     IDS_DELETESETTINGS, "設定を削除しますか？"
-    IDS_TITLETEXT, "Typaste version 0.5.4 by 片山博文MZ"
+    IDS_TITLETEXT, "Typaste version 1.0.0 by 片山博文MZ"
 }
 
 //////////////////////////////////////////////////////////////////////////////

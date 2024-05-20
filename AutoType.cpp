@@ -176,7 +176,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
             GUITHREADINFO info = { sizeof(info) };
             GetGUIThreadInfo(dwThreadId, &info);
             DWORD_PTR dwResult;
-            SendMessageTimeoutW(info.hwndFocus, WM_CHAR, *psz, 0, SMTO_ABORTIFHUNG, 2000, &dwResult);
+            SendMessageTimeout(info.hwndFocus, WM_CHAR, *psz, 0, SMTO_ABORTIFHUNG, 2000, &dwResult);
             Sleep(dwDelay);
         }
         else

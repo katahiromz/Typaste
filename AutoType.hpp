@@ -1,3 +1,3 @@
 void WaitModifierRelease(DWORD dwDelay);
-void AutoType(const WCHAR *psz, DWORD dwDelay, LPCWSTR pszSound);
+void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound);
 void CtrlV(DWORD dwDelay);

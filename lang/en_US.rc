@@ -6,25 +6,10 @@
 LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
 
 //////////////////////////////////////////////////////////////////////////////
-// RT_MENU
-
-1 MENU
-{
-    POPUP "Popup #0"
-    {
-        MENUITEM "&Properties...", ID_PROPERTIES
-        MENUITEM SEPARATOR
-        MENUITEM "&Delete Settings!", ID_DELETE_SETTINGS
-        MENUITEM SEPARATOR
-        MENUITEM "E&xit", ID_EXIT
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////
 // RT_DIALOG
 
-1 DIALOG 0, 0, 210, 135
-CAPTION "Typaste version 1.0.1 by katahiromz"
+IDD_MAIN DIALOG 0, 0, 210, 135
+CAPTION "Typaste version 1.0.2 by katahiromz"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
 FONT 9, "Tahoma"
 {
@@ -35,7 +20,7 @@ FONT 9, "Tahoma"
     PUSHBUTTON "E&xit", IDCANCEL, 145, 115, 60, 14
 }
 
-2 DIALOG 0, 0, 230, 140
+IDD_SETTINGS DIALOG 0, 0, 230, 140
 CAPTION "Typaste Settings"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION
 FONT 9, "Tahoma"
@@ -63,8 +48,8 @@ FONT 9, "Tahoma"
 // RT_VERSION
 
 1 VERSIONINFO
-FILEVERSION     1, 0, 1, 0
-PRODUCTVERSION  1, 0, 1, 0
+FILEVERSION     1, 0, 2, 0
+PRODUCTVERSION  1, 0, 2, 0
 FILEOS          0x40004
 FILETYPE        0x1
 FILESUBTYPE     0x0
@@ -75,10 +60,10 @@ FILESUBTYPE     0x0
         {
             VALUE "CompanyName", "Katayama Hirofumi MZ\0"
             VALUE "FileDescription", "Typaste\0"
-            VALUE "FileVersion", "1.0.1\0"
+            VALUE "FileVersion", "1.0.2\0"
             VALUE "LegalCopyright", "Copyright 2019-2024 katahiromz.\0"
             VALUE "ProductName", "Typaste\0"
-            VALUE "ProductVersion", "1.0.1\0"
+            VALUE "ProductVersion", "1.0.2\0"
         }
     }
     BLOCK "VarFileInfo"
@@ -94,7 +79,12 @@ STRINGTABLE
 {
     IDS_README, "\\README.txt"
     IDS_DELETESETTINGS, "Do you want to delete Typaste settings?"
-    IDS_TITLETEXT, "Typaste version 1.0.1 by katahiromz"
+    IDS_TITLETEXT, "Typaste version 1.0.2 by katahiromz"
+    IDS_NONE, "(None)"
+    IDS_CHOOSESOUNDFILE, "Choose an audio file"
+    IDS_SOUNDFILTER, "WAV Audio File (*.wav)|*.wav|All Files (*.*)|*.*|"
+    IDS_FAILDIALOG, "Failed to create the dialog."
+    IDS_FAILHOTKEY, "Failed to register the hot-key."
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -8,8 +8,8 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 //////////////////////////////////////////////////////////////////////////////
 // RT_DIALOG
 
-1 DIALOG 0, 0, 210, 135
-CAPTION "Typaste version 1.0.1 by 片山博文MZ"
+IDD_MAIN DIALOG 0, 0, 210, 135
+CAPTION "Typaste version 1.0.2 by 片山博文MZ"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
 FONT 9, "MS UI Gothic"
 {
@@ -20,7 +20,7 @@ FONT 9, "MS UI Gothic"
     PUSHBUTTON "終了(&X)", IDCANCEL, 145, 115, 60, 14
 }
 
-2 DIALOG 0, 0, 230, 140
+IDD_SETTINGS DIALOG 0, 0, 230, 140
 CAPTION "Typaste 設定"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION
 FONT 9, "MS UI Gothic"
@@ -48,8 +48,8 @@ FONT 9, "MS UI Gothic"
 // RT_VERSION
 
 1 VERSIONINFO
-FILEVERSION     1, 0, 1, 0
-PRODUCTVERSION  1, 0, 1, 0
+FILEVERSION     1, 0, 2, 0
+PRODUCTVERSION  1, 0, 2, 0
 FILEOS          0x40004
 FILETYPE        0x1
 FILESUBTYPE     0x0
@@ -60,10 +60,10 @@ FILESUBTYPE     0x0
         {
             VALUE "CompanyName", "Katayama Hirofumi MZ\0"
             VALUE "FileDescription", "Typaste\0"
-            VALUE "FileVersion", "1.0.1\0"
+            VALUE "FileVersion", "1.0.2\0"
             VALUE "LegalCopyright", "Copyright 2019-2024 katahiromz.\0"
             VALUE "ProductName", "Typaste\0"
-            VALUE "ProductVersion", "1.0.1\0"
+            VALUE "ProductVersion", "1.0.2\0"
         }
     }
     BLOCK "VarFileInfo"
@@ -79,7 +79,12 @@ STRINGTABLE
 {
     IDS_README, "\\READMEJP.txt"
     IDS_DELETESETTINGS, "設定を削除しますか？"
-    IDS_TITLETEXT, "Typaste version 1.0.1 by 片山博文MZ"
+    IDS_TITLETEXT, "Typaste version 1.0.2 by 片山博文MZ"
+    IDS_NONE, "(なし)"
+    IDS_CHOOSESOUNDFILE, "音声ファイルを選んで下さい"
+    IDS_SOUNDFILTER, "WAV音声ファイル (*.wav)|*.wav|すべてのファイル (*.*)|*.*|"
+    IDS_FAILDIALOG, "ダイアログの作成に失敗しました。"
+    IDS_FAILHOTKEY, "ホットキーの登録に失敗しました。"
 }
 
 //////////////////////////////////////////////////////////////////////////////

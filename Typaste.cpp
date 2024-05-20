@@ -484,9 +484,6 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
     }
 
     // Start auto typing
-#ifndef UNICODE
-    #error ANSI version is not supported yet.
-#endif
     AutoType(pszClone, g_dwDelayToType, szSoundFile);
 
     // Re-open IME if necessary

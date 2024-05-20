@@ -148,7 +148,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
         UINT iKL;
         for (iKL = 0; iKL < chkl; ++iKL)
         {
-            s = VkKeyScanExW(*psz, ahKLs[iKL]);
+            s = VkKeyScanEx(*psz, ahKLs[iKL]);
             if (s != -1)
                 break; // Success!
         }

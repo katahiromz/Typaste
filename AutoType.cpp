@@ -101,7 +101,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
 {
     const UINT cMaxKL = 10; // Who uses 10 keyboards in a moment?
 
-    // Get the list of the keyboard layouts.
+    // Get the list of the keyboard layouts
     HKL ahKLs[cMaxKL];
     UINT chkl = GetKeyboardLayoutList(cMaxKL, ahKLs);
 

@@ -146,7 +146,7 @@ BOOL Settings_Load(HWND hwnd)
     //
     DWORD dwData, cbData;
     TCHAR szText[MAX_PATH];
-    LSTATUS error;
+    LONG error;
 
     cbData = sizeof(DWORD);
     error = RegQueryValueEx(hKey, TEXT("Delay"), NULL, NULL, (LPBYTE)&dwData, &cbData);
@@ -364,19 +364,19 @@ void OnOpenReadMe(HWND hwnd)
 // IDD_MAIN WM_COMMAND
 void OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 {
-    // hwnd is a modeless dialog. We use DestroyWindow instead of EndDialog for this hwnd.
+    // This hwnd is a modeless dialog. We use DestroyWindow instead of EndDialog for this hwnd.
     switch (id)
     {
     case IDOK:
-        g_nExitCode = IDOK;
+        g_nExitCode = id;
         DestroyWindow(hwnd);
         break;
     case IDCANCEL:
-        g_nExitCode = IDCANCEL;
+        g_nExitCode = id;
         DestroyWindow(hwnd);
         break;
     case psh1:
-        g_nExitCode = psh1;
+        g_nExitCode = id;
         DestroyWindow(hwnd);
         break;
     case psh2:
@@ -384,12 +384,6 @@ void OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
         break;
     }
 }
-
-#ifdef UNICODE
-    #define CF_GENERICTEXT CF_UNICODETEXT
-#else
-    #define CF_GENERICTEXT CF_TEXT
-#endif
 
 // Normal Ctrl+V or something
 void NormalCtrlV(HWND hwnd)

@@ -21,3 +21,10 @@
 #else
     typedef std::string tstring_t;
 #endif
+
+// The generic text clipboard format
+#ifdef UNICODE
+    #define CF_GENERICTEXT CF_UNICODETEXT
+#else
+    #define CF_GENERICTEXT CF_TEXT
+#endif

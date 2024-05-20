@@ -6,7 +6,7 @@
 // Emulate a key press
 static inline void MyKeybdEvent(WORD wVk, WORD wScan, DWORD dwFlags, ULONG_PTR dwExtra)
 {
-#ifdef OLD_TECH
+#if (WINVER < 0x0500) // Old tech
     keybd_event(wVk, wScan, dwFlags, dwExtra);
 #else
     INPUT input;

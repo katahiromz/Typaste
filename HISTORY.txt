@@ -8,8 +8,8 @@
 - 2024-04-25 ver.0.5.4 Added "Play" button. Added "Control IME On/Off".
 - 2024-05-08 ver.1.0.0 Made "Control IME On/Off" default. Added spin controls.
 - 2024-05-16 ver.1.0.1 Added manifest and version info. Supported Windows 2000.
-- 2024-XX-YY ver.1.0.2 The details were properly localized. Added "(None)" to the sound.
-s
+- 2024-05-20 ver.1.0.2 The details were properly localized. Added "(None)" to the sound.
+
 ## Japanese (日本語)
 
 - 2019-08-07 ver.0.5.1 初公開。
@@ -18,4 +18,4 @@ s
 - 2024-04-25 ver.0.5.4 「音声の再生」を追加。「IMEのオン／オフを制御」を追加。
 - 2024-05-08 ver.1.0.0 「IMEのオン／オフを制御」をデフォルトに。スピンコントロールを追加。
 - 2024-05-16 ver.1.0.1 マニフェストとバージョン情報を追加。Windows 2000のサポート。
-- 2024-XX-YY ver.1.0.2 細かいところをちゃんとローカライズした。音声に「(なし)」を追加。
+- 2024-05-20 ver.1.0.2 細かいところをちゃんとローカライズした。音声に「(なし)」を追加。

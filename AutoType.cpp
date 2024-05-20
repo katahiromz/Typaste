@@ -168,22 +168,21 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
             }
         }
 
-        BYTE vk = LOBYTE(s); // The translated virtual key code
-        BYTE flags = HIBYTE(s); // The modifier flags
-
         if (s == -1) // Unable to translate
         {
             // Send WM_CHAR message to the foreground focus control
             HWND hwnd = GetForegroundWindow();
-            DWORD tid = GetWindowThreadProcessId(hwnd, NULL);
+            DWORD dwThreadId = GetWindowThreadProcessId(hwnd, NULL);
             GUITHREADINFO info = { sizeof(info) };
-            GetGUIThreadInfo(tid, &info);
+            GetGUIThreadInfo(dwThreadId, &info);
             DWORD_PTR dwResult;
             SendMessageTimeoutW(info.hwndFocus, WM_CHAR, *psz, 0, SMTO_ABORTIFHUNG, 2000, &dwResult);
             Sleep(dwDelay);
         }
         else
         {
+            BYTE vk = LOBYTE(s); // The translated virtual key code
+            BYTE flags = HIBYTE(s); // The modifier flags
             // Emulate the key press and release
             EmulateKey(vk, flags, dwDelay);
         }

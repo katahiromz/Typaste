@@ -83,6 +83,19 @@ void CtrlV(DWORD dwDelay)
     EmulateKey('V', HOTKEYF_CONTROL, dwDelay);
 }
 
+// Switch the keyboard layout by pressing [Shift]+[Alt]
+void SwitchKL(DWORD dwDelay)
+{
+    MyKeybdEvent(VK_LSHIFT, 0, 0, 0);
+    Sleep(dwDelay);
+    MyKeybdEvent(VK_LMENU, 0, 0, 0);
+    Sleep(dwDelay);
+    MyKeybdEvent(VK_LMENU, 0, KEYEVENTF_KEYUP, 0);
+    Sleep(dwDelay);
+    MyKeybdEvent(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
+    Sleep(dwDelay);
+}
+
 // The auto typing function
 void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
 {
@@ -140,6 +153,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
                 break; // Success!
         }
 
+        // Choose the prefer keyboard layout
         HKL hKL;
         if (s != -1)
         {
@@ -149,15 +163,8 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
                 if (hKL == ahKLs[iKL])
                     break; // The keyboard layout does match
 
-                // Emulate [Left Shift]+[Left Alt] to switch the keyboard layout
-                MyKeybdEvent(VK_LSHIFT, 0, 0, 0);
-                Sleep(dwDelay);
-                MyKeybdEvent(VK_LMENU, 0, 0, 0);
-                Sleep(dwDelay);
-                MyKeybdEvent(VK_LMENU, 0, KEYEVENTF_KEYUP, 0);
-                Sleep(dwDelay);
-                MyKeybdEvent(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
-                Sleep(dwDelay);
+                // Switch the keyboard layout by pressing [Shift]+[Alt]
+                SwitchKL(dwDelay);
             }
         }
 
@@ -189,14 +196,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
         if (hKL == hOldKL)
             break; // The keyboard layout does match
 
-        // Emulate [Left Shift]+[Left Alt] to switch the keyboard layout
-        MyKeybdEvent(VK_LSHIFT, 0, 0, 0);
-        Sleep(dwDelay);
-        MyKeybdEvent(VK_LMENU, 0, 0, 0);
-        Sleep(dwDelay);
-        MyKeybdEvent(VK_LMENU, 0, KEYEVENTF_KEYUP, 0);
-        Sleep(dwDelay);
-        MyKeybdEvent(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
-        Sleep(dwDelay);
+        // Switch the keyboard layout by pressing [Shift]+[Alt]
+        SwitchKL(dwDelay);
     }
 }

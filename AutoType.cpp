@@ -3,7 +3,7 @@
 // This file is public domain software.
 #include "Typaste.hpp"
 
-// Emulate a key press
+// Emulate a key press or release
 static inline void MyKeybdEvent(WORD wVk, WORD wScan, DWORD dwFlags, ULONG_PTR dwExtra)
 {
 #if (WINVER < 0x0500) // Old tech

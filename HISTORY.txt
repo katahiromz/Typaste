@@ -10,6 +10,7 @@
 - 2024-05-16 ver.1.0.1 Added manifest and version info. Supported Windows 2000.
 - 2024-05-20 ver.1.0.2 The details were properly localized. Added "(None)" to the sound.
 - 2025-01-08 ver.1.0.3 Fixed the main icon on the dialog not being displayed.
+- 2025-01-08 ver.1.0.4 Fixed "Open ReadMe".
 
 ## Japanese (日本語)
 
@@ -21,3 +22,4 @@
 - 2024-05-16 ver.1.0.1 マニフェストとバージョン情報を追加。Windows 2000のサポート。
 - 2024-05-20 ver.1.0.2 細かいところをちゃんとローカライズした。音声に「(なし)」を追加。
 - 2025-01-08 ver.1.0.3 ダイアログ上のメインアイコンが表示されていなかったのを修正。
+- 2025-01-08 ver.1.0.4 「ReadMeを開く」を修正。

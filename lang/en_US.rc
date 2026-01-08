@@ -9,7 +9,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_DEFAULT
 // RT_DIALOG
 
 IDD_MAIN DIALOG 0, 0, 210, 135
-CAPTION "Typaste version 1.0.3 by katahiromz"
+CAPTION "Typaste version 1.0.4 by katahiromz"
 STYLE DS_CENTER | DS_MODALFRAME | WS_POPUPWINDOW | WS_CAPTION | WS_MINIMIZEBOX
 FONT 9, "Tahoma"
 {
@@ -48,8 +48,8 @@ FONT 9, "Tahoma"
 // RT_VERSION
 
 1 VERSIONINFO
-FILEVERSION     1, 0, 3, 0
-PRODUCTVERSION  1, 0, 3, 0
+FILEVERSION     1, 0, 4, 0
+PRODUCTVERSION  1, 0, 4, 0
 FILEOS          0x40004
 FILETYPE        0x1
 FILESUBTYPE     0x0
@@ -60,10 +60,10 @@ FILESUBTYPE     0x0
         {
             VALUE "CompanyName", "Katayama Hirofumi MZ\0"
             VALUE "FileDescription", "Typaste\0"
-            VALUE "FileVersion", "1.0.3\0"
+            VALUE "FileVersion", "1.0.4\0"
             VALUE "LegalCopyright", "Copyright 2019-2024 katahiromz.\0"
             VALUE "ProductName", "Typaste\0"
-            VALUE "ProductVersion", "1.0.3\0"
+            VALUE "ProductVersion", "1.0.4\0"
         }
     }
     BLOCK "VarFileInfo"
@@ -79,7 +79,7 @@ STRINGTABLE
 {
     IDS_README, "\\README.txt"
     IDS_DELETESETTINGS, "Do you want to delete Typaste settings?"
-    IDS_TITLETEXT, "Typaste version 1.0.3 by katahiromz"
+    IDS_TITLETEXT, "Typaste version 1.0.4 by katahiromz"
     IDS_NONE, "(None)"
     IDS_CHOOSESOUNDFILE, "Choose an audio file"
     IDS_SOUNDFILTER, "WAV Audio File (*.wav)|*.wav|All Files (*.*)|*.*|"

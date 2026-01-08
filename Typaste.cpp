@@ -340,6 +340,7 @@ BOOL OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
     // Set the icons to the dialog
     SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)g_hIcon);
     SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)g_hIconSm);
+    SendDlgItemMessage(hwnd, ico1, STM_SETIMAGE, IMAGE_ICON, (LPARAM)g_hIcon);
 
     return TRUE; // Default focus
 }

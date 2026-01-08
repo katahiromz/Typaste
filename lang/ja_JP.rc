@@ -77,7 +77,7 @@ FILESUBTYPE     0x0
 
 STRINGTABLE
 {
-    IDS_README, "\\READMEJP.txt"
+    IDS_README, "\\README_ja.txt"
     IDS_DELETESETTINGS, "設定を削除しますか？"
     IDS_TITLETEXT, "Typaste version 1.0.4 by 片山博文MZ"
     IDS_NONE, "(なし)"

@@ -127,6 +127,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound, BOOL bRandom)
     // The typing loop
     for (; *psz; ++psz)
     {
+#ifndef NDEBUG
         // Calculate ratio and debug output
         static DWORD s_check = MAXDWORD;
         DWORD check = GetTickCount();
@@ -138,6 +139,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound, BOOL bRandom)
             OutputDebugStringW(text);
         }
         s_check = check;
+#endif
 
         // Quit the loop if the user press Esc key
         if (GetAsyncKeyState(VK_ESCAPE) < 0)

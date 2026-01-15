@@ -11,7 +11,7 @@
 - 2024-05-20 ver.1.0.2 The details were properly localized. Added "(None)" to the sound.
 - 2026-01-08 ver.1.0.3 Fixed the main icon on the dialog not being displayed.
 - 2026-01-08 ver.1.0.4 Fixed "Open ReadMe".
-- 2026-01-15 ver.1.0.5
+- 2026-01-15 ver.1.0.5 Added a randomization setting for typing intervals.
 
 ## Japanese (日本語)
 
@@ -24,4 +24,4 @@
 - 2024-05-20 ver.1.0.2 細かいところをちゃんとローカライズした。音声に「(なし)」を追加。
 - 2026-01-08 ver.1.0.3 ダイアログ上のメインアイコンが表示されていなかったのを修正。
 - 2026-01-08 ver.1.0.4 「ReadMeを開く」を修正。
-- 2026-01-15 ver.1.0.5
+- 2026-01-15 ver.1.0.5 タイピング間隔のランダム化設定を追加。

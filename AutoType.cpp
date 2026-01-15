@@ -2,6 +2,7 @@
 // Copyright (C) 2019-2024 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
 // This file is public domain software.
 #include "Typaste.hpp"
+#include <strsafe.h>
 
 // Emulate a key press or release
 static inline void MyKeybdEvent(WORD wVk, WORD wScan, DWORD dwFlags, ULONG_PTR dwExtra)
@@ -20,84 +21,99 @@ static inline void MyKeybdEvent(WORD wVk, WORD wScan, DWORD dwFlags, ULONG_PTR d
 #endif
 }
 
+void MySleep(DWORD delay, BOOL bRandom)
+{
+    if (!delay)
+        return;
+
+    if (!bRandom)
+    {
+        ::Sleep(delay);
+        return;
+    }
+
+    DWORD new_delay = (delay * 2 / 5) + (std::rand() % delay) * 3 / 5;
+    ::Sleep(new_delay);
+}
+
 // Wait for release of modifier keys
-void WaitModifierRelease(DWORD dwDelay)
+void WaitModifierRelease(DWORD dwDelay, BOOL bRandom)
 {
     while (GetAsyncKeyState(VK_SHIFT) < 0 ||
            GetAsyncKeyState(VK_CONTROL) < 0 ||
            GetAsyncKeyState(VK_MENU) < 0)
     {
-        Sleep(dwDelay);
+        MySleep(dwDelay, bRandom);
     }
 }
 
 // Emulate key press and release
-void EmulateKey(BYTE vk, BYTE flags, DWORD dwDelay)
+void EmulateKey(BYTE vk, BYTE flags, DWORD dwDelay, BOOL bRandom)
 {
     // Emulate the modifier keys press
     if (flags & HOTKEYF_SHIFT)
     {
         MyKeybdEvent(VK_LSHIFT, 0, 0, 0);
-        Sleep(dwDelay);
+        MySleep(dwDelay, bRandom);
     }
     if (flags & HOTKEYF_CONTROL)
     {
         MyKeybdEvent(VK_LCONTROL, 0, 0, 0);
-        Sleep(dwDelay);
+        MySleep(dwDelay, bRandom);
     }
     if (flags & HOTKEYF_ALT)
     {
         MyKeybdEvent(VK_LMENU, 0, 0, 0);
-        Sleep(dwDelay);
+        MySleep(dwDelay, bRandom);
     }
 
     // Emulate main key press
     MyKeybdEvent(vk, 0, 0, 0);
-    Sleep(dwDelay);
+    MySleep(dwDelay, bRandom);
 
     // Emulate main key release
     MyKeybdEvent(vk, 0, KEYEVENTF_KEYUP, 0);
-    Sleep(dwDelay);
+    MySleep(dwDelay, bRandom);
 
     // Emulate the modifier keys release (in reverse order)
     if (flags & HOTKEYF_ALT)
     {
         MyKeybdEvent(VK_LMENU, 0, KEYEVENTF_KEYUP, 0);
-        Sleep(dwDelay);
+        MySleep(dwDelay, bRandom);
     }
     if (flags & HOTKEYF_CONTROL)
     {
         MyKeybdEvent(VK_LCONTROL, 0, KEYEVENTF_KEYUP, 0);
-        Sleep(dwDelay);
+        MySleep(dwDelay, bRandom);
     }
     if (flags & HOTKEYF_SHIFT)
     {
         MyKeybdEvent(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
-        Sleep(dwDelay);
+        MySleep(dwDelay, bRandom);
     }
 }
 
 // Emulate Ctrl+V or something
-void CtrlV(DWORD dwDelay)
+void CtrlV(DWORD dwDelay, BOOL bRandom)
 {
-    EmulateKey('V', HOTKEYF_CONTROL, dwDelay);
+    EmulateKey('V', HOTKEYF_CONTROL, dwDelay, bRandom);
 }
 
 // Switch the keyboard layout by pressing [Shift]+[Alt]
-void SwitchKL(DWORD dwDelay)
+void SwitchKL(DWORD dwDelay, BOOL bRandom)
 {
     MyKeybdEvent(VK_LSHIFT, 0, 0, 0);
-    Sleep(dwDelay);
+    MySleep(dwDelay, bRandom);
     MyKeybdEvent(VK_LMENU, 0, 0, 0);
-    Sleep(dwDelay);
+    MySleep(dwDelay, bRandom);
     MyKeybdEvent(VK_LMENU, 0, KEYEVENTF_KEYUP, 0);
-    Sleep(dwDelay);
+    MySleep(dwDelay, bRandom);
     MyKeybdEvent(VK_LSHIFT, 0, KEYEVENTF_KEYUP, 0);
-    Sleep(dwDelay);
+    MySleep(dwDelay, bRandom);
 }
 
 // The auto typing function
-void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
+void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound, BOOL bRandom)
 {
     const UINT cMaxKL = 10; // Who uses 10 keyboards in a moment?
 
@@ -111,6 +127,18 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
     // The typing loop
     for (; *psz; ++psz)
     {
+        // Calculate ratio and debug output
+        static DWORD s_check = MAXDWORD;
+        DWORD check = GetTickCount();
+        DWORD delta = check - s_check;
+        WCHAR text[64];
+        if (s_check != MAXDWORD)
+        {
+            StringCchPrintfW(text, _countof(text), L"delta:%lu\n", delta);
+            OutputDebugStringW(text);
+        }
+        s_check = check;
+
         // Quit the loop if the user press Esc key
         if (GetAsyncKeyState(VK_ESCAPE) < 0)
             break;
@@ -123,16 +151,16 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
         case L'\n': // LF
             // Emulate Enter key
             MyKeybdEvent(VK_RETURN, 0, 0, 0);
-            Sleep(dwDelay);
+            MySleep(dwDelay, bRandom);
             MyKeybdEvent(VK_RETURN, 0, KEYEVENTF_KEYUP, 0);
-            Sleep(dwDelay);
+            MySleep(dwDelay, bRandom);
             continue;
         case L'\t': // TAB
             // Emulate Tab key
             MyKeybdEvent(VK_TAB, 0, 0, 0);
-            Sleep(dwDelay);
+            MySleep(dwDelay, bRandom);
             MyKeybdEvent(VK_TAB, 0, KEYEVENTF_KEYUP, 0);
-            Sleep(dwDelay);
+            MySleep(dwDelay, bRandom);
             continue;
         }
 
@@ -140,7 +168,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
         if (pszSound && *pszSound)
         {
             PlaySound(pszSound, NULL, SND_ASYNC | SND_FILENAME | SND_NODEFAULT);
-            Sleep(dwDelay);
+            MySleep(dwDelay, bRandom);
         }
 
         // Translate the character to a virtual key
@@ -164,7 +192,7 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
                     break; // The keyboard layout does match
 
                 // Switch the keyboard layout by pressing [Shift]+[Alt]
-                SwitchKL(dwDelay);
+                SwitchKL(dwDelay, bRandom);
             }
         }
 
@@ -177,14 +205,14 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
             GetGUIThreadInfo(dwThreadId, &info);
             DWORD_PTR dwResult;
             SendMessageTimeout(info.hwndFocus, WM_CHAR, *psz, 0, SMTO_ABORTIFHUNG, 2000, &dwResult);
-            Sleep(dwDelay);
+            MySleep(dwDelay, bRandom);
         }
         else
         {
             BYTE vk = LOBYTE(s); // The translated virtual key code
             BYTE flags = HIBYTE(s); // The modifier flags
             // Emulate the key press and release
-            EmulateKey(vk, flags, dwDelay);
+            EmulateKey(vk, flags, dwDelay, bRandom);
         }
     }
 
@@ -196,6 +224,6 @@ void AutoType(LPCTSTR psz, DWORD dwDelay, LPCTSTR pszSound)
             break; // The keyboard layout does match
 
         // Switch the keyboard layout by pressing [Shift]+[Alt]
-        SwitchKL(dwDelay);
+        SwitchKL(dwDelay, bRandom);
     }
 }

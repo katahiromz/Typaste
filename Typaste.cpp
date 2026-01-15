@@ -22,6 +22,7 @@ HICON       g_hIcon             = NULL;            // The application main icon 
 HICON       g_hIconSm           = NULL;            // The application main icon (small)
 INT         g_nExitCode         = IDCANCEL;        // The exit code
 BOOL        g_bControlIME       = TRUE;            // Does the application control IME?
+BOOL        g_bRandom           = FALSE;           // Random interval?
 TCHAR       g_szNone[64]        = TEXT("(None)");  // "(None)"
 tstring_t   g_strSound;                            // The sound filename
 
@@ -109,6 +110,9 @@ BOOL Settings_OnInitDialog(HWND hwnd, HWND hwndFocus, LPARAM lParam)
     // Control IME?
     CheckDlgButton(hwnd, chx1, g_bControlIME ? BST_CHECKED : BST_UNCHECKED);
 
+    // Random interval?
+    CheckDlgButton(hwnd, chx2, g_bRandom ? BST_CHECKED : BST_UNCHECKED);
+
     // Set foreground
     SetForegroundWindow(hwnd);
 
@@ -132,6 +136,7 @@ BOOL Settings_Load(HWND hwnd)
     g_dwDelayToStart = 0;
     g_wHotKey = DEFALUT_HOTKEY;
     g_bControlIME = TRUE;
+    g_bRandom = FALSE;
     LoadString(g_hInst, IDS_NONE, g_szNone, _countof(g_szNone));
     g_strSound = g_szNone;
 
@@ -185,6 +190,13 @@ BOOL Settings_Load(HWND hwnd)
         g_bControlIME = !!dwData;
     }
 
+    cbData = sizeof(DWORD);
+    error = RegQueryValueEx(hKey, TEXT("Random"), NULL, NULL, (LPBYTE)&dwData, &cbData);
+    if (!error)
+    {
+        g_bRandom = !!dwData;
+    }
+
     // Close the registry key
     RegCloseKey(hKey);
     return TRUE;
@@ -205,6 +217,7 @@ BOOL Settings_Save(HWND hwnd)
     RegSetValueEx(hAppKey, TEXT("Delay"), 0, REG_DWORD, (BYTE *)&g_dwDelayToType, sizeof(DWORD));
     RegSetValueEx(hAppKey, TEXT("DelayToStart"), 0, REG_DWORD, (BYTE *)&g_dwDelayToStart, sizeof(DWORD));
     RegSetValueEx(hAppKey, TEXT("ControlIME"), 0, REG_DWORD, (BYTE *)&g_bControlIME, sizeof(g_bControlIME));
+    RegSetValueEx(hAppKey, TEXT("Random"), 0, REG_DWORD, (BYTE *)&g_bRandom, sizeof(g_bRandom));
 
     DWORD dwData = g_wHotKey;
     RegSetValueEx(hAppKey, TEXT("HotKey"), 0, REG_DWORD, (BYTE *)&dwData, sizeof(dwData));
@@ -228,6 +241,7 @@ void Settings_OnOK(HWND hwnd)
     g_dwDelayToStart = GetDlgItemInt(hwnd, edt3, NULL, FALSE);
     g_wHotKey = (WORD)SendDlgItemMessage(hwnd, edt2, HKM_GETHOTKEY, 0, 0);
     g_bControlIME = (IsDlgButtonChecked(hwnd, chx1) == BST_CHECKED);
+    g_bRandom = (IsDlgButtonChecked(hwnd, chx2) == BST_CHECKED);
 
     TCHAR szText[MAX_PATH];
     GetDlgItemText(hwnd, cmb1, szText, _countof(szText));
@@ -387,16 +401,16 @@ void OnCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
 }
 
 // Normal Ctrl+V or something
-void NormalCtrlV(HWND hwnd)
+void NormalCtrlV(HWND hwnd, BOOL bRandom)
 {
     // Un-register the hot-key
     UnregisterHotKey(hwnd, HOTKEY_ID);
 
     // Wait for release of modifier keys
-    WaitModifierRelease(g_dwDelayToType);
+    WaitModifierRelease(g_dwDelayToType, bRandom);
 
     // Press Ctrl+V or something
-    CtrlV(g_dwDelayToType);
+    CtrlV(g_dwDelayToType, bRandom);
 
     // Re-register the hot-key
     MyRegisterHotKey(hwnd);
@@ -410,13 +424,13 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
         return;
 
     // Wait for start
-    Sleep(g_dwDelayToStart);
+    MySleep(g_dwDelayToStart, g_bRandom);
 
     // Is the clipboard text available?
     if (!IsClipboardFormatAvailable(CF_GENERICTEXT) || !OpenClipboard(hwnd))
     {
         // Text data in clipboard is not available.
-        NormalCtrlV(hwnd);
+        NormalCtrlV(hwnd, g_bRandom);
         return;
     }
 
@@ -437,12 +451,12 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
     if (!pszClone)
     {
         // Text data in clipboard is not available.
-        NormalCtrlV(hwnd);
+        NormalCtrlV(hwnd, g_bRandom);
         return;
     }
 
     // Wait for release of modifier keys
-    WaitModifierRelease(g_dwDelayToType);
+    WaitModifierRelease(g_dwDelayToType, g_bRandom);
 
     // Prepare for szSoundFile
     TCHAR szSoundFile[MAX_PATH];
@@ -485,7 +499,7 @@ void OnHotKey(HWND hwnd, int idHotKey, UINT fuModifiers, UINT vk)
     }
 
     // Start auto typing
-    AutoType(pszClone, g_dwDelayToType, szSoundFile);
+    AutoType(pszClone, g_dwDelayToType, szSoundFile, g_bRandom);
 
     // Re-open IME if necessary
     if (g_bControlIME && hwndIme && bImeOn)
@@ -535,6 +549,9 @@ WinMain(HINSTANCE   hInstance,
 {
     // Remember the application instance
     g_hInst = hInstance;
+
+	// Random seed
+	std::srand(::GetTickCount());
 
     // Find the application main window if any
     TCHAR szText[MAX_PATH];
